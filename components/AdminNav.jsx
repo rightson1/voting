@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthProvider";
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Sidebar from "./Sidebar";
-import { AiOutlineHome } from "react-icons/ai"
+import { BiArrowBack } from "react-icons/bi";
 
 const AdminNav = () => {
     const router = useRouter();
@@ -19,17 +19,15 @@ const AdminNav = () => {
         await logout()
     }
     return <>
-        <div className="sticky border-b-[1px] border-white flex  md:flex-row-reverse justify-between px-4 md:px-4 items-center text-white opacity-90 h-[80px] w-full top-0 left-0 bg-black z-10  ">
+        <div className="fixed md:sticky   border-b-[1px] border-white flex   justify-between px-4 md:px-4 items-center text-white opacity-[.98] min-h-[70px] md:h-[80px] w-full top-0 left-0 bg-black z-10  ">
 
             <h1 className="flex  cursor-pointer" onClick={() => router.push('/admin')}>
-                <AiOutlineHome className="text-3xl text-[fuchsia]" />
+                <BiArrowBack className="text-3xl text-[fuchsia]" />
             </h1>
             <h1 className="" onClick={() => router.push('/')}>
                 <IoMdNotificationsOutline className="text-3xl text-[fuchsia]" />
             </h1>
-            {/* <h1 className="flex md:hidden" onClick={() => router.push('/admin')}>
-                <AiOutlineHome className="text-3xl text-[fuchsia]" />
-            </h1> */}
+
 
 
             <button onClick={handleLogout} className="hidden md:flex mr-5 px-4 py-2 border-[1px] border-[fuchsia]">Logout</button>

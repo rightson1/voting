@@ -57,6 +57,8 @@ const Register = () => {
 
         } catch (error) {
             const errorCode = error.code;
+
+
             const errorMessage = error.message;
             setLoading(false);
             setErr(errorMessage)
@@ -76,13 +78,13 @@ const Register = () => {
     }, [err])
     return <div className="w-screen h-screen overflow-hidden bg-[rgb(40,35,51)] -md md:p-8 ">
         <div className="w-full flex-col  h-full bg-black md:bg-[rgb(46,41,56)] rounded p-4 overflow-y-auto md:p-8 flex items-center justify-center">
-            <h1 className="text-center text-white text-3xl ">LOGIN</h1>
+            <h1 className="text-center text-white text-3xl ">REGISTER</h1>
             <form action="" className=" max-h-[500px] max-w-[400px] flex flex-col gap-4 px-8 py-8  placeholder-[fuchsia] " onSubmit={handleSubmit}>
-                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md " type="text" placeholder="name" name="name" />
-                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md" type="email" placeholder="email" name="email" />
-                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md text-white" type="text" placeholder="admission number" name="adm" />
-                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md" type="password" placeholder="password" name="password" />
-                <input className=" hidden" type="file" placeholder="file" id="file" name="file" />
+                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md " type="text" required placeholder="name" name="name" />
+                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md" type="email" required placeholder="email" name="email" />
+                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md text-white" type="text" required placeholder="admission number" name="adm" />
+                <input className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md" type="password" required placeholder="password" name="password" />
+                <input className=" hidden" type="file" required placeholder="file" id="file" name="file" />
                 <label htmlFor="file" className=" p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md text-white flex gap-5">
                     <AiFillPicture className="text-white text-2xl" />
                     <span className="opacity-70 ">    Add Avatar</span>

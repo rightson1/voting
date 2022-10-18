@@ -20,10 +20,28 @@ const handler = async(req, res) => {
             res.status(500).json({ error: error.message });
         }
     } else if (req.method === "GET") {
-        try {
-            const { email } = req.query;
-            const admin = await Admin.findOne({ email });
+        const { email } = req.query;
+        if (email) {
+            try {
+                const admin = await Admin.findOne({ email });
 
+                res.status(200).json(admin);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        } else {
+            try {
+                const admin = await Admin.find();
+
+                res.status(200).json(admin);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        }
+    } else if (req.method === "DELETE") {
+        const { id } = req.query;
+        try {
+            const admin = await Admin.findOneAndDelete({ _id: id });
             res.status(200).json(admin);
         } catch (error) {
             res.status(500).json({ error: error.message });

@@ -7,9 +7,12 @@ import axios from "axios";
 import { baseUrl } from "../../components/data";
 import { useAuth } from "../../context/AuthProvider";
 import { useRouter } from "next/router";
-
+import Path from "../../components/Path";
 const Index = () => {
+    console.log(Path())
     const { user } = useAuth();
+
+
     const router = useRouter();
     const cards = [
         {
@@ -30,28 +33,33 @@ const Index = () => {
             desc: "You can view registered voters",
             link: 'voters'
         },
+        {
+            title: "ADD ADMIN",
+            desc: "You can add Admin or Delete Your Account",
+            link: 'account'
+        },
     ]
-    return <div className="bg-black w-screen   relative overflow-y-auto   overflow-x-hidden">
+    return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
 
 
-        <div className="flex">
+        <div className="flex h-full overflow-y-hidden">
             <div className="hidden md:flex">
                 <Sidebar index={true} />
             </div>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full ">
                 <AdminNav />
 
-                <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline mt-3">Welcome To The Admin Dashboard</h1>
-                <div className="flex flex-wrap justify-center py-4 gap-4   roud">
+                <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline mt-20 md:mt-3">Welcome To The Admin Dashboard</h1>
+                <div className="flex flex-wrap justify-center py-4 gap-4   md:overflow-y-auto px-8 items-center">
 
 
                     {
                         cards.map((card, index) => {
-                            return <div className="flex h-auto  w-full md:w-[300px] bg-[rgba(255,255,255,.8)]  flex-col p-4 relative gap-4" key={index} >
+                            return <div className="flex h-[300px]  w-full md:w-[300px] bg-[rgba(255,255,255,.8)]  flex-col p-4 relative gap-4 " key={index} >
                                 <h1 className="shadow-lg p-4 text-xl text-center  font-bold underline">{card.title} </h1>
                                 <div className="shadow-lg p-4  md:h-[110px]">
                                     <p>
-                                        <span className="font-semibold">Description:</span> <span className="text-[#ab4bab80]">{card.desc}</span>
+                                        <span className="font-semibold">Description:</span> <span className="text-[fuchsia]">{card.desc}</span>
                                     </p>
 
 
@@ -73,6 +81,7 @@ const Index = () => {
                             </div>
                         })
                     }
+
 
 
                 </div>
