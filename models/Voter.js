@@ -1,6 +1,5 @@
 import { Schema, model, models } from "mongoose";
-
-const AdminSchema = new Schema({
+const VoterSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -27,5 +26,12 @@ const AdminSchema = new Schema({
         required: false,
         default: "",
     },
-}, { timestamps: true });
-export default models.Admin || model("Admin", AdminSchema);
+    candidate: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+}, {
+    timestamps: true,
+});
+export default models.Voter || model("Voter", VoterSchema);

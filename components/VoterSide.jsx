@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import Image from "next/image"
-import { useAuth } from "../context/AuthProvider";
+import { useVoter } from "../context/VoterAuthProvider";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { baseUrl } from "./data";
 
-const Sidebar = ({ index }) => {
-    const { user, logout } = useAuth()
+const VoterSide = ({ index }) => {
+    const { currentUser: user, logout } = useVoter()
+
 
     const handleLogout = async () => {
         await logout()
@@ -31,33 +32,26 @@ const Sidebar = ({ index }) => {
 
             <div className="flex  flex-col gap-2  uppercase mt-5">
 
+
+
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin")
+                    router.push("/voter")
 
                 }}>Home</h1>
 
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/positions")
+                    router.push("/voter/positions")
 
 
                 }}>POSITIONS</h1>
-                <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/new-position")
 
-                }}>ADD POSITION</h1>
+
 
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/account")
+                    router.push("/voter/votes")
 
-                }}>ADMINS</h1>
-                <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/votes")
+                }}>VOTE</h1>
 
-                }}>VOTES</h1>
-                <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/voters")
-
-                }}>VOTERS</h1>
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
                     handleLogout()
 
@@ -85,40 +79,32 @@ const Sidebar = ({ index }) => {
 
             </div>
 
-            <div className="flex  flex-col gap-2 h-full uppercase text-center font-semibold">
+            <div className="flex  flex-col gap-2  uppercase mt-5">
+
+
 
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin")
+                    router.push("/voter")
 
                 }}>Home</h1>
 
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/positions")
+                    router.push("/voter/positions")
 
 
                 }}>POSITIONS</h1>
-                <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/new-position")
 
-                }}>ADD POSITION</h1>
+
 
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/account")
+                    router.push("/voter/votes")
 
-                }}>ADMINS</h1>
-                <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/votes")
+                }}>VOTE</h1>
 
-                }}>VOTES</h1>
-                <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/admin/voters")
-
-                }}>VOTERS</h1>
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
                     handleLogout()
 
                 }}>LOGOUT</h1>
-
 
 
             </div>
@@ -128,4 +114,4 @@ const Sidebar = ({ index }) => {
     };
 }
 
-export default Sidebar;
+export default VoterSide;

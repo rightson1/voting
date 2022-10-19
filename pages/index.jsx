@@ -34,7 +34,7 @@ const Us = () => {
             })}
           </div>
           <div className="flex flex-col items-center justify-center p-4 gap-4 md:flex-row bg-[rgba(255,255,255,.5)] z-[2]">
-            <button className="p-4 shadow-lg bg-white" onClick={() => router.push("/")}>Login As Voter</button>
+            <button className="p-4 shadow-lg bg-white" onClick={() => router.push("/voter/login")}>Login As Voter</button>
             <button className="p-4 shadow-lg bg-white" onClick={() => router.push("/admin/login")}>Login As Admin</button>
           </div>
         </div>

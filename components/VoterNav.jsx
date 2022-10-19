@@ -5,7 +5,7 @@ import { BiUserCircle } from "react-icons/bi";
 import { useAuth } from "../context/AuthProvider";
 import { motion } from "framer-motion"
 import Image from "next/image"
-import Sidebar from "./Sidebar";
+import VoterSide from "./VoterSide";
 import { BiArrowBack } from "react-icons/bi";
 
 const AdminNav = ({ candidate }) => {
@@ -23,7 +23,7 @@ const AdminNav = ({ candidate }) => {
 
             <h1 className="flex  cursor-pointer" onClick={() => {
 
-                router.push(candidate ? candidate : '/admin')
+                router.push(candidate ? candidate : '/voter')
 
             }}>
                 <BiArrowBack className="text-3xl text-[fuchsia]" />
@@ -89,7 +89,7 @@ const AdminNav = ({ candidate }) => {
         <div className={!open ? `absolute h-full w-screen top-[80px] left-0 z-10 transition duration-[.3s] -translate-x-[100vw]` :
             "absolute h-full w-screen  top-[80px] left-0 z-10 translate-x-0 transition duration-[.5s] bg-[rgba(255,0,255,.1)]"}
             onClick={() => setOpen(false)}>
-            <Sidebar />
+            <VoterSide />
         </div>
     </>
 

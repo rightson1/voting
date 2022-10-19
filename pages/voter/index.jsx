@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
-import AdminNav from "../../components/AdminNav";
+import VoterNav from "../../components/VoterNav"
 import Lines from "../../components/Lines";
-import Sidebar from "../../components/Sidebar";
+import VoterSide from "../../components/VoterSide";
 import { AiOutlineArrowRight, AiOutlineRight } from "react-icons/ai";
 import axios from "axios";
-import { baseUrl } from "../../components/data";
-import { useAuth } from "../../context/AuthProvider";
 import { useRouter } from "next/router";
-
+import { useVoter } from "../../context/VoterAuthProvider"
 const Index = () => {
+    const { currentUser, logout } = useVoter()
 
-    const { user } = useAuth();
+
 
 
     const router = useRouter();
@@ -21,38 +20,25 @@ const Index = () => {
             roles: "You can add a new position, edit or delete a position, view the candidates that have applied for a position, add or delete a candidate",
             link: 'positions'
         },
-        {
-            title: "ADD ELECTROL POSITION",
-            desc: "Click to add a new electrol position",
-            link: 'new-position',
-            roles: "You can add a new position"
-        },
+
 
         {
-            title: "VIEW VOTES",
+            title: "VOTE",
             desc: "You can view all the votes casted by voters",
-            link: 'votes'
+            link: 'vote'
         },
-        {
-            title: "VIEW VOTERS",
-            desc: "You can view registered voters",
-            link: 'voters'
-        },
-        {
-            title: "ADD ADMIN",
-            desc: "You can add Admin or Delete Your Account",
-            link: 'account'
-        },
+
+
     ]
     return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
 
 
         <div className="flex h-full overflow-y-hidden">
             <div className="hidden md:flex">
-                <Sidebar index={true} />
+                <VoterSide index={true} />
             </div>
             <div className="flex flex-col w-full ">
-                <AdminNav />
+                <VoterNav />
 
                 <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline mt-20 md:mt-3">Welcome To The Admin Dashboard</h1>
                 <div className="flex flex-wrap justify-center py-4 gap-4   md:overflow-y-auto px-8 items-center">
@@ -71,7 +57,7 @@ const Index = () => {
                                 </div>
 
                                 <div className="flex flex-wrap   justify-center mb-7">
-                                    <button className="font-semibold shadow-lg p-4 w-[200px] flex items-center justify-center" onClick={() => router.push(`/admin/${card.link}`)}>
+                                    <button className="font-semibold shadow-lg p-4 w-[200px] flex items-center justify-center" onClick={() => router.push(`/voter/${card.link}`)}>
                                         <span>View</span> <AiOutlineArrowRight />
                                     </button>
 
@@ -80,7 +66,7 @@ const Index = () => {
 
 
 
-                                <div className="absolute -bottom-4 translate-x-[-50%] opacity-90 text-white  left-[50%] bg-[fuchsia] p-4 rounded-full " onClick={() => router.push(`/admin/${card.link}`)}>
+                                <div className="absolute -bottom-4 translate-x-[-50%] opacity-90 text-white  left-[50%] bg-[fuchsia] p-4 rounded-full " onClick={() => router.push(`/voter/${card.link}`)}>
                                     <AiOutlineRight className="" />
                                 </div>
                             </div>
