@@ -50,7 +50,7 @@ const Candidate = () => {
         )
     }, [])
 
-    console.log(read)
+
 
     return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden   h-screen">
 

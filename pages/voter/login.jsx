@@ -32,8 +32,9 @@ const Login = () => {
             const errorCode = error.code;
             setErr(error.message)
             const errorMessage = error.message;
+            setLoading(false)
         }
-        setLoading(false)
+
     }
 
 

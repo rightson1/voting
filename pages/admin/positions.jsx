@@ -49,7 +49,6 @@ const Index = () => {
 
     const handleSubmit = (e) => {
         setLoading(true);
-        e.preventDefault();
 
 
         const data = {
@@ -62,6 +61,12 @@ const Index = () => {
                 setLoading(false);
 
                 setOpen(false)
+                e.preventDefault();
+
+                setChange(!change)
+                toast.success("Position updated successfully", toastOptions);
+
+
 
 
             }

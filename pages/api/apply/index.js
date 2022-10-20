@@ -29,6 +29,37 @@ export default async function handler(req, res) {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
+    } else if (req.method === "PUT") {
+        const { _id } = req.query;
+        if (_id) {
+            try {
+                const candidate = await Applicants.findByIdAndUpdate(_id, req.body, {
+                    new: true,
+                });
+                res.status(200).json(candidate);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        } else {
+            try {
+                const candidate = await Applicants.findByIdAndUpdate(
+                    req.body._id, { read: req.body.read, allow: req.body.allow }, {
+                        new: true,
+                    }
+                );
+                res.status(200).json(candidate);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        }
+    } else if (req.method === "DELETE") {
+        const { _id } = req.query;
+        try {
+            const candidate = await Applicants.findByIdAndDelete(_id);
+            res.status(200).json({ success: "Successfully deleted!" });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     } else {
         res.status(405).json({ error: "Method not allowed" });
     }

@@ -31,7 +31,7 @@ const Register = () => {
         setLoading(true);
 
 
-        axios.get(`${baseUrl}/voter?email=${admValue}`).then(async (res) => {
+        axios.get(`${baseUrl}/voter?adm=${admValue}`).then(async (res) => {
 
 
             if (!res.data) {

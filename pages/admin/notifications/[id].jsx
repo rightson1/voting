@@ -22,6 +22,7 @@ const Candidate = () => {
     const [values, setValues] = useState(null);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loading2, setLoading2] = useState(false);
 
     const [desc, setDesc] = useState(false);
     const [change, setChange] = useState(false);
@@ -41,9 +42,23 @@ const Candidate = () => {
 
 
 
-    }, [id]);
+    }, [id, change]);
+    const handleRead = async () => {
+        setLoading2(true)
+
+        axios.put(`${baseUrl}/apply?_id=${candidate._id}`, { read: true, _id: candidate._id }).then((res) => {
+            toast.success("Notification Read ", toastOptions);
+            setLoading2(false);
+        }).catch((res) => {
+            toast.error("Something went wrong Please Try again", toastOptions);
+            setLoading2(false);
+        })
+
+    }
+
 
     const handleAccept = () => {
+        setLoading(true);
         const data = {
             name: candidate.name, email: candidate.email, adm: candidate.adm,
             admin: user._id, pic: candidate.pic, avatar: candidate.avatar, position: candidate.position, positionId: candidate.positionId,
@@ -51,18 +66,28 @@ const Candidate = () => {
         }
         axios.post(`${baseUrl}/candidate`, data).then((res) => {
 
+            axios.put(`${baseUrl}/apply`, { read: true, _id: candidate._id, allow: true }).then((res) => {
+
+            }).catch((res) => {
+                // toast.error("Something went wrong Please Try again", toastOptions);
+            })
+
             if (!res.data.name) {
                 setLoading(false)
                 toast.error("candidate is alredy registered, on this or another position", toastOptions)
 
+
             } else {
                 toast.success("candidate registered successfully", toastOptions)
+
                 setLoading(false)
-                e.target.reset();
+
             }
+            setChange(!change)
+
 
         }).catch((err) => {
-
+            setLoading(true)
             toast.error("Something went wrong", toastOptions)
             setLoading(false)
 
@@ -73,37 +98,27 @@ const Candidate = () => {
     const handleDelete = async (candidateId, pic) => {
 
 
-        await axios.delete(`${baseUrl}/candidate?id=${candidateId}`).then(async (res) => {
+        await axios.delete(`${baseUrl}/apply?_id=${candidate._id}`).then(async (res) => {
+            setChange(!change);
             toast.success("Candidate deleted successfully", toastOptions);
-            const storageRef = ref(storage, `candidate/${pic}`);
+            const storageRef = ref(storage, `candidate/${candidate.pic}`);
 
             await deleteObject(storageRef).then(() => {
                 toast.success("Candidate deleted successfully", toastOptions);
-                setLoading(false);
-                setOpen(false);
-                setChange(!change);
+
+
             }).catch((err) => {
                 toast.error("Something went wrong", toastOptions);
-                setLoading(false);
-                setOpen(false);
+
             })
         }).catch((err) => {
             toast.error("Something went wrong", toastOptions);
-            setLoading(false);
-            setOpen(false);
+            ;
+
         })
 
     }
-    useEffect(() => {
-        axios.get(`${baseUrl}/apply?_id=${id}`).then((res) => {
 
-            setPosition(res.data)
-        }).catch((err) => {
-
-
-        })
-
-    }, [id]);
     return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
 
 
@@ -116,7 +131,7 @@ const Candidate = () => {
 
 
                 <div className="mt-20 md:mt-3 overflow-y-auto ">
-                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline "> Job Application</h1>
+                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline "> NOFTIFICATIONS</h1>
 
                     <div className="   p-4 flex flex-wrap gap-4 justify-center items-center">
                         {candidate ?
@@ -157,15 +172,15 @@ const Candidate = () => {
                                             </button>
                                             <button className="font-semibold shadow-lg p-4 w-[200px]" onClick={() => {
 
-                                                handleAccept();
+                                                handleRead();
 
                                             }}>
-                                                MARK AS READ
+                                                {loading2 ? "WAIT...." : 'MARK AS READ'}
                                             </button>
                                             <button className="font-semibold shadow-lg p-4 w-[200px]"
                                                 onClick={() => {
 
-                                                    handleDelete(candidate._id, candidate.pic)
+                                                    handleDelete()
                                                 }}
                                             >
                                                 DELETE NOTIFICATION

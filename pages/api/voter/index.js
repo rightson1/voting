@@ -12,7 +12,7 @@ const handler = async(req, res) => {
         }
     } else if (req.method === "GET") {
         const { email } = req.query;
-        const { admn } = req.query;
+        const { adm } = req.query;
         if (email) {
             try {
                 const voter = await Voter.findOne({ email });
@@ -21,11 +21,11 @@ const handler = async(req, res) => {
             } catch (error) {
                 res.status(500).json({ error: error.message });
             }
-        } else if (admn) {
+        } else if (adm) {
             try {
-                const voter = await Voter.findOne({ admn });
+                const voter = await Voter.findOne({ adm });
 
-                res.status(200).json(admn);
+                res.status(200).json(voter);
             } catch (error) {
                 res.status(500).json({ error: error.message });
             }

@@ -257,7 +257,7 @@ const Candidate = () => {
 
 
 
-                            <button className="text-white p-4  w-full bg-[rgba(255,100,255,.8)]  hover:bg-white hover:text-black self-center  w-full    md:ml-20" type="submit">{loading ? 'loading...' : 'Add Candidate'}</button>
+                            <button className="text-white p-4  w-full bg-[rgba(255,100,255,.8)]  hover:bg-white hover:text-black self-center  w-full    md:ml-20" type="submit">{loading ? 'loading...' : 'Edit Candidate'}</button>
 
 
                         </form>

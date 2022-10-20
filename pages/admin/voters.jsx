@@ -63,7 +63,7 @@ const Index = () => {
 
 
                 <div className="mt-20 md:mt-3 overflow-y-auto ">
-                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">VOTES</h1>
+                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">VOTERS</h1>
                     <div className="   p-4 flex flex-wrap gap-4 justify-center items-center">
 
                         {
