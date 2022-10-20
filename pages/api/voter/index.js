@@ -33,7 +33,7 @@ const handler = async(req, res) => {
             try {
                 const voter = await Voter.find();
 
-                res.status(200).json(admin);
+                res.status(200).json(voter);
             } catch (error) {
                 res.status(500).json({ error: error.message });
             }

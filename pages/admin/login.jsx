@@ -27,18 +27,21 @@ const Login = () => {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, emailValue, passwordValue);
                 router.push("/admin")
+                setLoading(false)
             } catch (error) {
                 const errorCode = error.code;
                 setErr(error.message)
                 const errorMessage = error.message;
+                setLoading(false)
             }
 
         }).catch((err) => {
+            setLoading(false)
             console.log(err)
         })
 
 
-        setLoading(false)
+
     }
 
 

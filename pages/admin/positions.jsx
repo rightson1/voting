@@ -24,7 +24,6 @@ const Index = () => {
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
     const [positionId, setPositionId] = useState("");
-    const [pic, setPic] = React.useState(null)
     const [position, setPosition] = useState("");
     const [jobLoading, setJobLoading] = useState(true);
 
@@ -61,9 +60,10 @@ const Index = () => {
 
                 toast.success("Position updated successfully", toastOptions);
                 setLoading(false);
-                e.target.reset()
-                setChange(!change)
+
                 setOpen(false)
+
+
             }
             )
             .catch((err) => {
@@ -245,7 +245,7 @@ const Index = () => {
 
 
                     </div>
-                    \
+
 
                 </div>
             </div>

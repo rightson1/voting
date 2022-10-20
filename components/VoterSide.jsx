@@ -48,7 +48,7 @@ const VoterSide = ({ index }) => {
 
 
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/voter/votes")
+                    router.push("/voter/vote")
 
                 }}>VOTE</h1>
 
@@ -97,7 +97,7 @@ const VoterSide = ({ index }) => {
 
 
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
-                    router.push("/voter/votes")
+                    router.push("/voter/vote")
 
                 }}>VOTE</h1>
 

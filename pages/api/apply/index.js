@@ -12,9 +12,20 @@ export default async function handler(req, res) {
         }
     } else if (req.method === "GET") {
         try {
-            const { positionId, _id } = req.query;
-            const candidates = await Applicants.find({ positionId, _id });
-            res.status(200).json(candidates);
+            const { positionId, read, _id } = req.query;
+            if (positionId && _id) {
+                const candidates = await Applicants.find({ positionId, _id });
+                res.status(200).json(candidates);
+            } else if (read) {
+                const candidates = await Applicants.find({ read });
+                res.status(200).json(candidates);
+            } else if (_id) {
+                const candidates = await Applicants.findOne({ _id });
+                res.status(200).json(candidates);
+            } else {
+                const candidates = await Applicants.find();
+                res.status(200).json(candidates);
+            }
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

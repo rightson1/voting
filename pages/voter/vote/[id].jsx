@@ -11,33 +11,24 @@ import { motion } from "framer-motion"
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../firebase";
 import Image from "next/image";
+import { useVoter } from "../../../context/VoterAuthProvider";
+import { ToastOptions } from "react-toastify";
+
 const Candidate = () => {
+
+    const { currentUser: user } = useVoter()
+
     const router = useRouter();
     const [candidates, setCandidates] = useState([]);
     const [loading1, setLoading1] = useState(true);
-    const [values, setValues] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [candidateId, setCandidateId] = useState(null);
-    const [desc, setDesc] = useState(false);
-    const [change, setChange] = useState(false);
-    const [candidate, setCandidate] = useState(null);
-    const [file, setFile] = useState(null)
-    const [pic, setPic] = useState(null)
-    const { id } = router.query;
     const [position, setPosition] = useState()
-    useEffect(() => {
-        axios.get(`${baseUrl}/candidate/?id=${id}`).then((res) => {
-            setCandidates(res.data);
-            setLoading1(false);
-        }).catch((err) => {
-            console.log(err);
-            setLoading1(false);
+    const [loading2, setLoading2] = useState(false)
+    const [desc, setDesc] = useState(false);
+    const [voted, setVoted] = useState(null)
 
-        })
+    const [candidate, setCandidate] = useState(null);
 
-    }, [id, change]);
-
+    const { id } = router.query;
     useEffect(() => {
         axios.get(`${baseUrl}/jobs/?id=${id}`).then((res) => {
 
@@ -49,6 +40,50 @@ const Candidate = () => {
 
     }, [id]);
 
+    useEffect(() => {
+        axios.get(`${baseUrl}/candidate/?id=${id}`).then((res) => {
+            setCandidates(res.data);
+            setLoading1(false);
+        }).catch((err) => {
+            console.log(err);
+            setLoading1(false);
+
+        })
+
+    }, [id]);
+
+    useEffect(() => {
+        axios.get(`${baseUrl}/vote?voterId=${user?._id}&positionId=${id}`).then((res) => {
+            setVoted(res.data)
+
+        }).catch((err) => {
+
+
+        })
+
+    }, [user, loading2]);
+
+
+    const handleVote = (candidateId, candidateName) => {
+        setLoading2(true)
+
+        const data = { name: user.name, adm: user.adm, voterId: user._id, avatar: user.avatar, position: position.title, positionId: id, candidateName, candidateId }
+        axios.post(`${baseUrl}/vote`, data).then((res) => {
+
+            if (res.data.voterId) {
+                toast.success('Voted Sucessfull')
+                setLoading2(false)
+            } else {
+                toast.success(res.data)
+                setLoading2(false)
+            }
+        }).catch((err) => {
+            setLoading2(false)
+
+
+        })
+    }
+
 
     return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
 
@@ -58,12 +93,11 @@ const Candidate = () => {
                 <VoterSide index={true} />
             </div>
             <div className="flex flex-col w-full">
-                <VoterNav candidate="/voter/positions" />
+                <VoterNav candidate="/voter/vote" />
 
 
                 <div className="mt-20 md:mt-3 overflow-y-auto ">
                     <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">{position?.title.toUpperCase()} CANDIDATES</h1>
-
                     <div className="   p-4 flex flex-wrap gap-4 justify-center items-center">
                         {candidates.length ?
                             candidates.map((candidate, index) => {
@@ -92,7 +126,26 @@ const Candidate = () => {
                                             </div>
 
 
+                                            <div className="flex flex-wrap   justify-center mb-7">
 
+
+                                                {voted ? <button className="font-semibold shadow-lg p-1 text-[14px] mt-4 w-[200px]"
+
+
+                                                >
+                                                    You already voted
+
+                                                </button> :
+                                                    <button className="font-semibold shadow-lg p-1 text-[14px] mt-4 w-[200px]"
+                                                        onClick={() => handleVote(candidate._id, candidate.name)
+                                                        }
+                                                    >
+                                                        {loading2 ? 'Loading' : `vote for ${candidate.name}`}
+
+                                                    </button>
+                                                }
+
+                                            </div>
 
 
 
@@ -171,9 +224,10 @@ const Candidate = () => {
 
                     </div>
                 </motion.div>
-
+                <ToastContainer />
             </div>
         </div>
+
     </div>
 };
 

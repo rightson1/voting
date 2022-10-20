@@ -43,6 +43,11 @@ const Index = () => {
             desc: "You can add Admin or Delete Your Account",
             link: 'account'
         },
+        {
+            title: "NOTIFICATIONS",
+            desc: "View application notifications",
+            link: 'notifications'
+        },
     ]
     return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
 

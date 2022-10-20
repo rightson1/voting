@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io"
 import { BiUserCircle } from "react-icons/bi";
 import { useAuth } from "../context/AuthProvider";
@@ -7,12 +7,20 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import Sidebar from "./Sidebar";
 import { BiArrowBack } from "react-icons/bi";
+import axios from "axios"
+import { baseUrl } from "./data.js"
 
 const AdminNav = ({ candidate }) => {
     const router = useRouter();
     const [open, setOpen] = useState(false)
     const { logout, currentUser } = useAuth()
+    const [notification, setNotifications] = useState([])
+    useEffect(() => {
+        axios.get(`${baseUrl}/apply?read=false`).then(res => {
+            setNotifications(res.data.length)
 
+        })
+    }, [])
 
 
     const handleLogout = async () => {
@@ -28,17 +36,20 @@ const AdminNav = ({ candidate }) => {
             }}>
                 <BiArrowBack className="text-3xl text-[fuchsia]" />
             </h1>
-            <h1 className="" onClick={() => {
+            <h1 className=" relative" onClick={() => {
 
-                // router.push('/')
+                router.push('/notifications')
             }}>
+                <div className="absolute -top-3 -right-2 text-[fuchsia] rounded-full bg-white w-[20px] h-[20px] flex justify-center items-center">
+                    {notification}
+                </div>
                 <IoMdNotificationsOutline className="text-3xl text-[fuchsia]" />
             </h1>
 
 
 
             <button onClick={handleLogout} className="hidden md:flex mr-5 px-4 py-2 border-[1px] border-[fuchsia]">Logout</button>
-            <motion.div className="close xm:cursor-pointer md:hidden mr-5 text-2xl cursor-pointer w-[50px] justify-center flex" onClick={() => setOpen(!open)} layout>
+            <motion.div className="close xm:cursor-pointer md:hidden  text-2xl cursor-pointer w-[50px] justify-center flex" onClick={() => setOpen(!open)} layout>
                 {open ? <div className="flex flex-col gap-2">
                     <motion.div
                         initial={{

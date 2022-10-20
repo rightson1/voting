@@ -11,46 +11,48 @@ import { motion } from "framer-motion"
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../firebase";
 import Image from "next/image";
+import { format } from "timeago.js"
 const Candidate = () => {
     const router = useRouter();
     const [candidates, setCandidates] = useState([]);
     const [loading1, setLoading1] = useState(true);
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [candidateId, setCandidateId] = useState(null);
-    const [desc, setDesc] = useState(false);
-    const [candidate, setCandidate] = useState(null);
+    const [all, setAll] = useState(false)
     const [votes, setVotes] = useState([]);
-
+    const [notifications, setNotifications] = useState([]);
+    const [read, setRead] = useState(true);
     const { id } = router.query;
+
     useEffect(() => {
-        axios.get(`${baseUrl}/candidate/?id=${id}`).then((res) => {
-            setCandidates(res.data);
-            setLoading1(false);
-        }).catch((err) => {
-            console.log(err);
+        axios.get(`${baseUrl}/apply`).then(res => {
+            setAll(res.data)
             setLoading1(false);
 
-        })
 
-    }, [id]);
+
+        }).catch(err => {
+            setLoading1(false);
+
+        }
+        )
+    }, [])
     useEffect(() => {
-        axios
-            .get(`${baseUrl}/vote?positionId=${id}`)
-            .then((res) => {
-                setVotes(res.data)
-
-
-            })
-            .catch((err) => {
-
-
-            });
-    }, [candidates])
+        axios.get(`${baseUrl}/apply?read=false`).then(res => {
+            setNotifications(res.data)
 
 
 
-    return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
+        }).catch(err => {
+
+
+        }
+        )
+    }, [])
+
+    console.log(read)
+
+    return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden   h-screen">
 
 
         <div className="flex h-full ">
@@ -62,62 +64,66 @@ const Candidate = () => {
 
 
                 <div className="mt-20 md:mt-3 overflow-y-auto ">
-                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">POSITIONS</h1>
+                    <div className="flex w-full justify-center items-center gap-4 flex-row-reverse">
+                        <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold  underline  cursor-pointer" onClick={() => setRead(false)} style={{
+                            color: !read && 'white'
+                        }} >UNREAD</h1>
+                        <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold underline  cursor-pointer" onClick={() => setRead(true)}
+                            style={{
+                                color: read && 'white'
+                            }}
+                        >ALL</h1>
+
+                    </div>
                     <div className="   p-4 flex flex-wrap gap-4 justify-center items-center">
-                        {candidates.length ?
-                            candidates.map((candidate, index) => {
-                                return <div className="flex   w-full  bg-[rgba(255,255,255,.8)]  flex-col p-4 relative gap-4 max-w-[500px] md:w-[400px]" key={index}>
-                                    <h1 className="shadow-lg p-4 text-xl text-center  font-bold underline">{candidate.name} </h1>
-                                    <div className="flex flex-col items-center md:flex--row md:it-ems-start  gap-4">
-                                        <div className="shadow-lg  overflow-hidden  h-[100px] w-[100px]  rounded-full min-w-[70px] min-h-[70px]">
-                                            <img src={candidate.avatar} alt="" className="object-cover w-full h-full" />
+                        {read ? all.length &&
+                            all.map((item, index) => {
+                                return <div key={index} className=" border-[2px] cursor-pointer min-h-[30px] flex gap-1 p-4 " onClick={() => router.push(`/admin/notifications/${item._id}`)}>
+                                    <div className=" rounded-full overflow-hidden w-[50px] h-[50px] ml-4">
+                                        <Image src={item.avatar || "/rightson.png"} alt="" width={70} height={70} />
+                                    </div>
+                                    <div className="flex flex-col px-3 opacity-[.7] text-white">
+
+                                        <p><span className="font-bold">{item.name} </span>
+                                            applied for a {item.position}</p>
+
+
+                                    </div>
+                                    <div className="justify-self-end opacity-[.5] text-white">
+                                        {format(item.updatedAt)}
+                                    </div>
+                                </div>
+                            })
+                            : !read ? notifications.length &&
+
+                                notifications.map((item, index) => {
+                                    return <div key={index} className=" border-[2px] cursor-pointer min-h-[30px] flex gap-1 p-4 " onClick={() => router.push(`/admin/notifications/${item._id}`)}>
+                                        <div className=" rounded-full overflow-hidden w-[50px] h-[50px] ml-4">
+                                            <Image src={item.avatar || "/rightson.png"} alt="" width={70} height={70} />
                                         </div>
-                                        <div>
-                                            <div className="shadow-lg p-4 overflow-y-auto overflow-x-hidden relative">
+                                        <div className="flex flex-col px-3 opacity-[.7] text-white">
+
+                                            <p><span className="font-bold">{item.name} </span>
+                                                applied for a {item.position}</p>
 
 
-                                                <p>
-                                                    <span className="font-semibold">Votes Gathered:</span> <span className="text-[fuchsia]">{votes.filter((vote) => vote.candidateId === candidate._id).length}</span>
-                                                </p>
-
-                                                <p>
-                                                    <span className="font-semibold">Total Votes:</span> <span className="text-[fuchsia] text-xl font-bold">{votes.length}</span>
-                                                </p>
-
-                                            </div>
-
-
-                                            <div className="flex flex-wrap   justify-center mb-7">
-
-                                                <button className="font-semibold shadow-lg p-4 w-[200px]" onClick={() => {
-                                                    setOpen(votes.filter((vote) => vote.candidateId === candidate._id).length ? true : false)
-                                                    setCandidateId(candidate._id)
-
-
-
-                                                }}>
-                                                    VIEW VOTES TABLE
-                                                </button>
-
-                                            </div>
-
-
-
+                                        </div>
+                                        <div className="justify-self-end opacity-[.5] text-white">
+                                            {format(item.updatedAt)}
                                         </div>
                                     </div>
+                                })
+                                : loading1 ?
 
-                                </div>
-                            }) : loading1 ?
+                                    (
 
-                                (
+                                        <Loading data="Loading.." />
+                                    )
 
-                                    <Loading data="Loading.." />
-                                )
+                                    : (
 
-                                : (
-
-                                    <Loading data={'No candidate added yet'} />
-                                )
+                                        <Loading data={'No Notifications for you today'} />
+                                    )
 
                         }
 

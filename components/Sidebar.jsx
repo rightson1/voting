@@ -58,6 +58,7 @@ const Sidebar = ({ index }) => {
                     router.push("/admin/voters")
 
                 }}>VOTERS</h1>
+
                 <h1 className="cursor-pointer px-4 py-3 text-white text-[16px]  shadow-lg bg-[rgba(255,255,255,.1)] hover:bg-black hover:text-white" onClick={() => {
                     handleLogout()
 

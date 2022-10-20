@@ -11,6 +11,7 @@ import { motion } from "framer-motion"
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../firebase";
 import Image from "next/image";
+
 const Candidate = () => {
     const router = useRouter();
     const [candidates, setCandidates] = useState([]);
@@ -25,6 +26,7 @@ const Candidate = () => {
     const [file, setFile] = useState(null)
     const [pic, setPic] = useState(null)
     const { id } = router.query;
+    const [position, setPosition] = useState()
     useEffect(() => {
         axios.get(`${baseUrl}/candidate/?id=${id}`).then((res) => {
             setCandidates(res.data);
@@ -35,7 +37,32 @@ const Candidate = () => {
 
         })
 
+
     }, [id, change]);
+    const handleDelete = async (candidateId, pic) => {
+
+
+        await axios.delete(`${baseUrl}/candidate?id=${candidateId}`).then(async (res) => {
+            toast.success("Candidate deleted successfully", toastOptions);
+            const storageRef = ref(storage, `candidate/${pic}`);
+
+            await deleteObject(storageRef).then(() => {
+                toast.success("Candidate deleted successfully", toastOptions);
+                setLoading(false);
+                setOpen(false);
+                setChange(!change);
+            }).catch((err) => {
+                toast.error("Something went wrong", toastOptions);
+                setLoading(false);
+                setOpen(false);
+            })
+        }).catch((err) => {
+            toast.error("Something went wrong", toastOptions);
+            setLoading(false);
+            setOpen(false);
+        })
+
+    }
 
     const handleChanges = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -98,6 +125,16 @@ const Candidate = () => {
 
 
     }
+    useEffect(() => {
+        axios.get(`${baseUrl}/jobs/?id=${id}`).then((res) => {
+
+            setPosition(res.data)
+        }).catch((err) => {
+
+
+        })
+
+    }, [id]);
     return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
 
 
@@ -110,7 +147,8 @@ const Candidate = () => {
 
 
                 <div className="mt-20 md:mt-3 overflow-y-auto ">
-                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">CANDIDATES</h1>
+                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">{position?.title.toUpperCase()} CANDIDATES</h1>
+
                     <div className="   p-4 flex flex-wrap gap-4 justify-center items-center">
                         {candidates.length ?
                             candidates.map((candidate, index) => {
@@ -153,7 +191,7 @@ const Candidate = () => {
                                                 <button className="font-semibold shadow-lg p-4 w-[200px]"
                                                     onClick={() => {
 
-                                                        handleDelete(candidate._id)
+                                                        handleDelete(candidate._id, candidate.pic)
                                                     }}
                                                 >
                                                     DELETE CANDIDATE
@@ -279,7 +317,7 @@ const Candidate = () => {
 
                     </div>
                 </motion.div>
-
+                <ToastContainer />
             </div>
         </div>
     </div>

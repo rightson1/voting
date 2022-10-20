@@ -17,21 +17,32 @@ const Index = () => {
     const { user } = useAuth();
     const router = useRouter();
 
-    const [jobs, setJobs] = useState([]);
+    const [voters, setVoters] = useState([]);
 
-    const [jobLoading, setJobLoading] = useState(true);
+    const [voterLoading, setVoterLoading] = useState(true);
+
+
+    const [cols, setCols] = useState(5);
+    const [colsList, setColList] = useState([])
+    const [header, setHeader] = useState(null)
+    const [hColor, setColor] = useState(null)
+    const [tColor, setTColor] = useState(null)
+    const [border, setBorder] = useState(null)
+    const [rows, setRows] = useState(5);
+
+    const [rowList, setRowList] = useState([])
 
 
     useEffect(() => {
         axios
-            .get(`${baseUrl}/jobs`)
+            .get(`${baseUrl}/voter`)
             .then((res) => {
-                setJobs(res.data)
-                setJobLoading(false)
+                setVoters(res.data)
+                setVoterLoading(false)
 
             })
             .catch((err) => {
-                setJobLoading(false)
+                setVoterLoading(false)
 
             });
     }, [])
@@ -39,7 +50,8 @@ const Index = () => {
 
 
 
-    return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
+
+    return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden   min-h-screen">
 
 
         <div className="flex h-full ">
@@ -51,47 +63,66 @@ const Index = () => {
 
 
                 <div className="mt-20 md:mt-3 overflow-y-auto ">
-                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">POSITIONS</h1>
+                    <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline ">VOTES</h1>
                     <div className="   p-4 flex flex-wrap gap-4 justify-center items-center">
-                        {jobs.length ?
-                            jobs.map((job, index) => {
-                                return <div className="flex h-auto  md:h-[200px]  w-full md:w-[300px] bg-[rgba(255,255,255,.8)]  flex-col p-4 relative gap-4" key={index}>
-                                    <h1 className="shadow-lg p-4 text-xl text-center  font-bold underline">{job.title} </h1>
+
+                        {
+                            voters ? <div className="my-8 justify-center w-full overflow-auto max-h-[300px] pb-8">
+                                <table className="border-[2px] border-white min-w-full bg-white">
+                                    <thead className="bg-gray-800 text-white">
+                                        <tr>
+                                            <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Pic</th>
+                                            <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
+                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Adm Number</th>
+                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {voters.map((voter, i) => {
+                                            return <tr key={i} className="my-2 px-8 border-black border-b" >
+                                                <td className="py-4">
+                                                    <div className=" flex justify-center w-[50px] h-[50px]  rounded-[50%]">
+                                                        <img src={voter.avatar} alt="" className="w-[50px] h-[50px]  rounded-[50%]" />
+                                                    </div>
+
+                                                </td>
+                                                <td className="">
+                                                    <div className="w-full flex justify-start text-xl">
+                                                        <span>{voter.name}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4">
+                                                    <div className="w-full flex justify-start text-xl">
+                                                        <span>{voter.adm}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4">
+                                                    <div className="w-full flex justify-start text-xl">
+                                                        <span>{voter.email}</span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        })}
+
+                                    </tbody>
+                                </table>
+                            </div> : !voterLoading ?
 
 
-                                    <div className="flex flex-wrap   justify-center mb-7 overflow-y-auto">
-                                        <button className="font-semibold shadow-lg p-4 w-[200px]"
-                                            onClick={() => router.push(`/admin/votes/${job._id}`)
-                                            }
-                                        >
-                                            VIEW VOTES
-                                        </button>
 
-                                    </div>
+                                <Loading data="No voters added yet" />
 
 
+                                :
 
-                                    <div className="absolute -bottom-4 translate-x-[-50%] opacity-90 text-white  left-[50%] bg-[fuchsia] p-4 rounded-full ">
-                                        <AiOutlineRight className="" />
-                                    </div>
-                                </div>
-                            }) : !jobLoading ?
+                                <Loading data='loading...' />
 
-                                (
 
-                                    <Loading data="No positions created yet" />
-                                )
-
-                                : (
-
-                                    <Loading data={'loading...'} />
-                                )
 
                         }
-
-
                     </div>
-                    \
+
 
                 </div>
             </div>
@@ -103,3 +134,4 @@ const Index = () => {
 };
 
 export default Index;
+

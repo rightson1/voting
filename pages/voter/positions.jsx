@@ -6,7 +6,7 @@ import { AiOutlineArrowRight, AiOutlineRight, AiOutlineCloseCircle, AiFillPictur
 import axios from "axios";
 import { baseUrl } from "../../components/data";
 import { useRouter } from "next/router";
-import { useAuth } from "../../context/AuthProvider";
+
 import { motion } from "framer-motion"
 import { ToastContainer, toast } from "react-toastify";
 import { toastOptions } from "../../components/data";
@@ -14,7 +14,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
 import Loading from "../../components/Loading";
 const Index = () => {
-    const { user } = useAuth();
+
     const router = useRouter();
 
     const [jobs, setJobs] = useState([]);
