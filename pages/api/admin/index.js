@@ -16,7 +16,7 @@ const handler = async(req, res) => {
             });
             res.status(201).json({ admin });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json(error);
         }
     } else if (req.method === "GET") {
         const { email } = req.query;
@@ -26,7 +26,7 @@ const handler = async(req, res) => {
 
                 res.status(200).json(admin);
             } catch (error) {
-                res.status(500).json({ error: error.message });
+                res.status(500).json(error);
             }
         } else {
             try {
@@ -34,7 +34,7 @@ const handler = async(req, res) => {
 
                 res.status(200).json(admin);
             } catch (error) {
-                res.status(500).json({ error: error.message });
+                res.status(500).json(error);
             }
         }
     } else if (req.method === "DELETE") {
@@ -43,7 +43,7 @@ const handler = async(req, res) => {
             const admin = await Admin.findOneAndDelete({ _id: id });
             res.status(200).json(admin);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json(error);
         }
     } else {
         res.status(200).json({ error: "Method not allowed" });
