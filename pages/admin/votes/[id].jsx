@@ -145,7 +145,7 @@ const Candidate = () => {
                             }} />
                         </div>
 
-                        <h1 className="text-2xl font-semibold text-center"> Voters</h1>
+                        <h1 className="text-2xl font-semibold text-center"> VoteS</h1>
                         <div className="my-8 justify-center w-full overflow-auto max-h-[300px] pb-8  ">
                             <table className="border-[2px] border-white bg-white ">
                                 <thead className="bg-gray-800 text-white">

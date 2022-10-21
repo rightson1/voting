@@ -164,7 +164,7 @@ const Index = () => {
 
             });
     }, [change])
-
+    console.log(jobs)
 
 
 

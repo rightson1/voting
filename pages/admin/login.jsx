@@ -79,6 +79,7 @@ const Login = () => {
                     <input className=" p-4 outline-none min-w-[200px] bg-[rgba(255,255,255,.1)] rounded-md " type="email" placeholder="email" name="email" />
                     <input className=" p-4 outline-none min-w-[200px] bg-[rgba(255,255,255,.1)] rounded-md" type="password" placeholder="password" name="password" />
                     <button className="text-white p-4 outline-none min-w-[300px] bg-[rgba(255,255,255,.1)] rounded-md hover:bg-white hover:text-black" type="submit">{loading ? 'Loading...' : 'Login'}</button>
+                    <p className="text-white"> Dont have account Account? <span className="text-[fuchsia] ml-3 cursor-pointer" onClick={() => router.push('/admin/register')}>Register</span></p>
                 </form>
 
             </div>

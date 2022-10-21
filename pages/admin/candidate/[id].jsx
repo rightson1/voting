@@ -26,7 +26,7 @@ const Candidate = () => {
     const [file, setFile] = useState(null)
     const [pic, setPic] = useState(null)
     const { id } = router.query;
-    const [position, setPosition] = useState()
+    const [position, setPosition] = useState(null)
     useEffect(() => {
         axios.get(`${baseUrl}/candidate/?id=${id}`).then((res) => {
             setCandidates(res.data);

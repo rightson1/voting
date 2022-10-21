@@ -4,7 +4,6 @@ const handler = async(req, res) => {
     await db();
     if (req.method === "POST") {
         const { name, email, adm, password, avatar, pic } = req.body;
-        console.log(req.body);
 
         try {
             const admin = await Admin.create({
