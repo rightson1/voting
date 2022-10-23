@@ -73,6 +73,7 @@ const Register = () => {
             toast.error(err, toastOptions)
         }
         setTimeout(() => {
+            setLoading(false)
             setErr("")
         }, 3000)
     }, [err])

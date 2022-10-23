@@ -68,6 +68,7 @@ const Login = () => {
         }
         setTimeout(() => {
             setErr("")
+            setLoading(false)
         }, 3000)
     }, [err])
 

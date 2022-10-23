@@ -90,6 +90,7 @@ const Register = () => {
         }
         setTimeout(() => {
             setErr("")
+            setLoading(false)
         }, 3000)
     }, [err])
 

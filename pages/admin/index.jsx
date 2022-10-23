@@ -7,11 +7,19 @@ import axios from "axios";
 import { baseUrl } from "../../components/data";
 import { useAuth } from "../../context/AuthProvider";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+
 
 const Index = () => {
 
     const { user } = useAuth();
-
+    useEffect(() => {
+        setTimeout(() => {
+            if (!user) {
+                toast.success("check sidebar if your details have been fetched, if not refresh")
+            }
+        }, [])
+    }, [])
 
     const router = useRouter();
     const cards = [
@@ -59,7 +67,10 @@ const Index = () => {
             <div className="flex flex-col w-full ">
                 <AdminNav />
 
-                <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline mt-20 md:mt-3">Welcome To The Admin Dashboard</h1>
+                <div className=" flex justify-center underline mt-20 md:mt-3 text-center w-full">
+                    <h1 className="text-[18px] md:text-2xl text-[rgba(255,100,255,.5)] font-semibold  underline">Welcome To The Admin Dashboard</h1>
+
+                </div>
                 <div className="flex flex-wrap justify-center py-4 gap-4   md:overflow-y-auto px-8 items-center">
 
 
@@ -98,6 +109,7 @@ const Index = () => {
 
             </div>
         </div>
+        <ToastContainer />
 
         <Lines />
     </div>;

@@ -5,6 +5,7 @@ import VoterSide from "../../components/VoterSide";
 import { AiOutlineArrowRight, AiOutlineRight } from "react-icons/ai";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
 import { useVoter } from "../../context/VoterAuthProvider"
 const Index = () => {
     const { currentUser, logout } = useVoter()
@@ -30,6 +31,11 @@ const Index = () => {
 
 
     ]
+    useEffect(() => {
+        if (!currentUser) {
+            toast.success("check sidebar if your details have been fetched, if not refresh")
+        }
+    }, [])
     return <div className="bg-black w-screen   relative md:overflow-y-hidden md:h-[100vh]   overflow-x-hidden  ">
 
 
@@ -39,8 +45,10 @@ const Index = () => {
             </div>
             <div className="flex flex-col w-full ">
                 <VoterNav />
+                <div className=" flex justify-center underline mt-20 md:mt-3 text-center w-full">
+                    <h1 className="text-[18px] md:text-2xl text-[rgba(255,100,255,.5)] font-semibold  underline">Welcome To The Voter Dashboard</h1>
 
-                <h1 className="text-2xl text-[rgba(255,100,255,.5)] font-semibold w-full flex justify-center underline mt-20 md:mt-3">Welcome To The Admin Dashboard</h1>
+                </div>
                 <div className="flex flex-wrap justify-center py-4 gap-4   md:overflow-y-auto px-8 items-center">
 
 
@@ -79,6 +87,7 @@ const Index = () => {
 
             </div>
         </div>
+        <ToastContainer />
 
         <Lines />
     </div>;
